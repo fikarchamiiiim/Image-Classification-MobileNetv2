@@ -181,15 +181,14 @@ def main():
     col1, col2 = st.columns([1, 1], gap="large")
 
     with col1:
-        st.markdown('<div class="upload-section">', unsafe_allow_html=True)
         uploaded_file = st.file_uploader("📤 Pilih gambar daun...", type=["jpg", "jpeg", "png", "bmp"])
         st.markdown('</div>', unsafe_allow_html=True)
 
         if uploaded_file is not None:
             image = Image.open(uploaded_file).convert("RGB")
-            st.image(image, caption="Gambar yang diunggah", use_container_width=True)
+            st.image(image, caption="Gambar yang diunggah", width='stretch')
 
-            if st.button("🔍 Klasifikasikan", type="primary", use_container_width=True):
+            if st.button("🔍 Klasifikasikan", type="primary", width='stretch'):
                 with st.spinner("Memproses..."):
                     tensor = preprocess_image(image)
                     probs = predict(model, tensor, device)
@@ -205,7 +204,6 @@ def main():
             pred_idx, confidence, probs = st.session_state['prediction']
             pred_label = class_names[pred_idx] if pred_idx < len(class_names) else f"Kelas {pred_idx}"
 
-            st.markdown('<div class="result-card">', unsafe_allow_html=True)
             st.markdown(f'<div class="prediction-label">🏆 {pred_label}</div>', unsafe_allow_html=True)
             st.markdown(f'<div class="confidence">Confidence: {confidence:.2%}</div>', unsafe_allow_html=True)
             st.markdown('</div>', unsafe_allow_html=True)
